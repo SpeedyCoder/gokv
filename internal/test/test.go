@@ -22,9 +22,9 @@ type privateFoo struct {
 	privateBar string
 }
 
-// TestStore tests if reading from, writing to and deleting from the store works properly.
+// Store tests if reading from, writing to and deleting from the store works properly.
 // A struct is used as value. See TestTypes() for a test that is simpler but tests all types.
-func TestStore(store gokv.Store, t *testing.T) {
+func Store(store gokv.Store, t *testing.T) {
 	key := strconv.FormatInt(rand.Int63(), 10)
 
 	// Initially the key shouldn't exist
@@ -87,8 +87,8 @@ func TestStore(store gokv.Store, t *testing.T) {
 	}
 }
 
-// TestTypes tests if setting and getting values works with all Go types.
-func TestTypes(store gokv.Store, t *testing.T) {
+// Types tests if setting and getting values works with all Go types.
+func Types(store gokv.Store, t *testing.T) {
 	boolVar := true
 	// Omit byte
 	// Omit error - it's a Go builtin type but marshalling and then unmarshalling doesn't lead to equal objects
@@ -305,12 +305,12 @@ func handleGetError(t *testing.T, err error, found bool) {
 	}
 }
 
-// TestConcurrentInteractions launches a bunch of goroutines that concurrently work with the store.
-func TestConcurrentInteractions(t *testing.T, goroutineCount int, store gokv.Store) {
+// ConcurrentInteractions launches a bunch of goroutines that concurrently work with the store.
+func ConcurrentInteractions(t *testing.T, goroutineCount int, store gokv.Store) {
 	waitGroup := sync.WaitGroup{}
 	waitGroup.Add(goroutineCount) // Must be called before any goroutine is started
 	for i := 0; i < goroutineCount; i++ {
-		go InteractWithStore(store, strconv.Itoa(i), t, &waitGroup)
+		go interactWithStore(store, strconv.Itoa(i), t, &waitGroup)
 	}
 	waitGroup.Wait()
 
@@ -332,10 +332,10 @@ func TestConcurrentInteractions(t *testing.T, goroutineCount int, store gokv.Sto
 	}
 }
 
-// InteractWithStore reads from and writes to the DB. Meant to be executed in a goroutine.
+// interactWithStore reads from and writes to the DB. Meant to be executed in a goroutine.
 // Does NOT check if the DB works correctly (that's done elsewhere),
 // only checks for errors that might occur due to concurrent access.
-func InteractWithStore(store gokv.Store, key string, t *testing.T, waitGroup *sync.WaitGroup) {
+func interactWithStore(store gokv.Store, key string, t *testing.T, waitGroup *sync.WaitGroup) {
 	defer waitGroup.Done()
 
 	// Read

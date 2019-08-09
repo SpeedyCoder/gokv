@@ -25,14 +25,14 @@ func TestClient(t *testing.T) {
 	t.Run("JSON", func(t *testing.T) {
 		client := createClient(t, encoding.JSON)
 		defer client.Close()
-		test.TestStore(client, t)
+		test.Store(client, t)
 	})
 
 	// Test with gob
 	t.Run("gob", func(t *testing.T) {
 		client := createClient(t, encoding.Gob)
 		defer client.Close()
-		test.TestStore(client, t)
+		test.Store(client, t)
 	})
 }
 
@@ -48,14 +48,14 @@ func TestTypes(t *testing.T) {
 	t.Run("JSON", func(t *testing.T) {
 		client := createClient(t, encoding.JSON)
 		defer client.Close()
-		test.TestTypes(client, t)
+		test.Types(client, t)
 	})
 
 	// Test with gob
 	t.Run("gob", func(t *testing.T) {
 		client := createClient(t, encoding.Gob)
 		defer client.Close()
-		test.TestTypes(client, t)
+		test.Types(client, t)
 	})
 }
 
@@ -72,7 +72,7 @@ func TestClientConcurrent(t *testing.T) {
 
 	goroutineCount := 1000
 
-	test.TestConcurrentInteractions(t, goroutineCount, client)
+	test.ConcurrentInteractions(t, goroutineCount, client)
 }
 
 // TestErrors tests some error cases.

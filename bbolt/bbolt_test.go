@@ -20,14 +20,14 @@ func TestStore(t *testing.T) {
 	t.Run("JSON", func(t *testing.T) {
 		store, path := createStore(t, encoding.JSON)
 		defer cleanUp(store, path)
-		test.TestStore(store, t)
+		test.Store(store, t)
 	})
 
 	// Test with gob
 	t.Run("gob", func(t *testing.T) {
 		store, path := createStore(t, encoding.Gob)
 		defer cleanUp(store, path)
-		test.TestStore(store, t)
+		test.Store(store, t)
 	})
 }
 
@@ -37,14 +37,14 @@ func TestTypes(t *testing.T) {
 	t.Run("JSON", func(t *testing.T) {
 		store, path := createStore(t, encoding.JSON)
 		defer cleanUp(store, path)
-		test.TestTypes(store, t)
+		test.Types(store, t)
 	})
 
 	// Test with gob
 	t.Run("gob", func(t *testing.T) {
 		store, path := createStore(t, encoding.Gob)
 		defer cleanUp(store, path)
-		test.TestTypes(store, t)
+		test.Types(store, t)
 	})
 }
 
@@ -57,7 +57,7 @@ func TestStoreConcurrent(t *testing.T) {
 
 	goroutineCount := 1000
 
-	test.TestConcurrentInteractions(t, goroutineCount, store)
+	test.ConcurrentInteractions(t, goroutineCount, store)
 }
 
 // TestErrors tests some error cases.

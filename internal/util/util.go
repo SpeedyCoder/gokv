@@ -15,7 +15,7 @@ func CheckKeyAndValue(k string, v interface{}) error {
 // CheckKey returns an error if k == ""
 func CheckKey(k string) error {
 	if k == "" {
-		return errors.New("The passed key is an empty string, which is invalid")
+		return errors.New("the provided key is an empty string")
 	}
 	return nil
 }
@@ -23,7 +23,7 @@ func CheckKey(k string) error {
 // CheckVal returns an error if v == nil
 func CheckVal(v interface{}) error {
 	if v == nil {
-		return errors.New("The passed value is nil, which is not allowed")
+		return errors.New("the provided value is nil")
 	}
 	return nil
 }
