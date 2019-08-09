@@ -12,9 +12,9 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	awsdynamodb "github.com/aws/aws-sdk-go/service/dynamodb"
 
-	"github.com/philippgille/gokv/dynamodb"
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/dynamodb"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
 )
 
 // For "DynamoDB local" Docker container.

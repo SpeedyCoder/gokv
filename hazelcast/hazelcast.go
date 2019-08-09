@@ -8,8 +8,8 @@ import (
 	"github.com/hazelcast/hazelcast-go-client/core"
 	"github.com/hazelcast/hazelcast-go-client/core/logger"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/util"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/util"
 )
 
 // Client is a gokv.Store implementation for Hazelcast.

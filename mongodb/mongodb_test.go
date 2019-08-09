@@ -5,10 +5,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/mongodb"
 	"github.com/globalsign/mgo"
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
-	"github.com/philippgille/gokv/mongodb"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

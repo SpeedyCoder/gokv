@@ -11,8 +11,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	awss3 "github.com/aws/aws-sdk-go/service/s3"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/util"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/util"
 )
 
 // Client is a gokv.Store implementation for S3.
@@ -77,6 +77,8 @@ func (c Client) Get(k string, v interface{}) (found bool, err error) {
 		// TODO: Maybe return an error? Behaviour should be consistent across all implementations.
 		return false, nil
 	}
+	defer getObjectOutput.Body.Close()
+
 	data, err := ioutil.ReadAll(getObjectOutput.Body)
 	if err != nil {
 		return true, err

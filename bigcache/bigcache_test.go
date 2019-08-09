@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/philippgille/gokv/bigcache"
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/bigcache"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
 )
 
 // TestStore tests if reading and writing to the store works properly.

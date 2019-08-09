@@ -11,9 +11,9 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	awss3 "github.com/aws/aws-sdk-go/service/s3"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
-	"github.com/philippgille/gokv/s3"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/s3"
 )
 
 // For Minio Docker container.

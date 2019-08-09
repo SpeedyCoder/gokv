@@ -9,8 +9,8 @@ import (
 	// ("warning: a blank import should be only in a main or test package, or have a comment justifying it").
 	_ "github.com/lib/pq"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/sql"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/sql"
 )
 
 const defaultDBname = "gokv"

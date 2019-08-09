@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/philippgille/gokv"
-	"github.com/philippgille/gokv/redis"
+	"github.com/SpeedyCoder/gokv"
+	"github.com/SpeedyCoder/gokv/redis"
 )
 
 type foo struct {

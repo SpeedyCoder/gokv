@@ -5,9 +5,9 @@ import (
 	"log"
 	"testing"
 
-	"github.com/philippgille/gokv/cockroachdb"
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/cockroachdb"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

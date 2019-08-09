@@ -3,9 +3,9 @@ package syncmap_test
 import (
 	"testing"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
-	"github.com/philippgille/gokv/syncmap"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/syncmap"
 )
 
 // TestStore tests if reading and writing to the store works properly.

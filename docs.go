@@ -11,8 +11,8 @@ Example code for using Redis:
 	import (
 		"fmt"
 
-		"github.com/philippgille/gokv"
-		"github.com/philippgille/gokv/redis"
+		"github.com/SpeedyCoder/gokv"
+		"github.com/SpeedyCoder/gokv/redis"
 	)
 
 	type foo struct {
@@ -64,6 +64,6 @@ Example code for using Redis:
 		}
 	}
 
-More details can be found on https://github.com/philippgille/gokv.
+More details can be found on https://github.com/SpeedyCoder/gokv.
 */
 package gokv

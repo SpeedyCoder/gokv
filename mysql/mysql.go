@@ -7,8 +7,8 @@ import (
 	// but we'll use the package's ParseDNS() function so we make this an actual import.
 	gosqldriver "github.com/go-sql-driver/mysql"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/sql"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/sql"
 )
 
 const defaultDBname = "gokv"

@@ -8,9 +8,9 @@ import (
 
 	"go.etcd.io/etcd/clientv3"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/etcd"
-	"github.com/philippgille/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/etcd"
+	"github.com/SpeedyCoder/gokv/internal/test"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

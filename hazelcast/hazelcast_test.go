@@ -8,9 +8,9 @@ import (
 	"github.com/hazelcast/hazelcast-go-client/config/property"
 	"github.com/hazelcast/hazelcast-go-client/core/logger"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/hazelcast"
-	"github.com/philippgille/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/hazelcast"
+	"github.com/SpeedyCoder/gokv/internal/test"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

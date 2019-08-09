@@ -8,9 +8,9 @@ import (
 
 	"github.com/samuel/go-zookeeper/zk"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
-	"github.com/philippgille/gokv/zookeeper"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/zookeeper"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

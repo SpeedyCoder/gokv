@@ -8,9 +8,9 @@ import (
 
 	"github.com/hashicorp/consul/api"
 
-	"github.com/philippgille/gokv/consul"
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/consul"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

@@ -10,9 +10,9 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/storage"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
-	"github.com/philippgille/gokv/tablestorage"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/tablestorage"
 )
 
 var connectionStringEnvVar = "TABLE_STORAGE_CONNECTION_STRING"

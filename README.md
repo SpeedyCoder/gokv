@@ -1,7 +1,7 @@
 gokv
 ====
 
-[![GoDoc](http://www.godoc.org/github.com/philippgille/gokv?status.svg)](http://www.godoc.org/github.com/philippgille/gokv) [![Build Status](https://travis-ci.org/philippgille/gokv.svg?branch=master)](https://travis-ci.org/philippgille/gokv) [![Go Report Card](https://goreportcard.com/badge/github.com/philippgille/gokv)](https://goreportcard.com/report/github.com/philippgille/gokv) [![codecov](https://codecov.io/gh/philippgille/gokv/branch/master/graph/badge.svg)](https://codecov.io/gh/philippgille/gokv) [![GitHub Releases](https://img.shields.io/github/release/philippgille/gokv.svg)](https://github.com/philippgille/gokv/releases) [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
+[![GoDoc](http://www.godoc.org/github.com/SpeedyCoder/gokv?status.svg)](http://www.godoc.org/github.com/SpeedyCoder/gokv) [![Build Status](https://travis-ci.org/philippgille/gokv.svg?branch=master)](https://travis-ci.org/philippgille/gokv) [![Go Report Card](https://goreportcard.com/badge/github.com/SpeedyCoder/gokv)](https://goreportcard.com/report/github.com/SpeedyCoder/gokv) [![codecov](https://codecov.io/gh/philippgille/gokv/branch/master/graph/badge.svg)](https://codecov.io/gh/philippgille/gokv) [![GitHub Releases](https://img.shields.io/github/release/philippgille/gokv.svg)](https://github.com/SpeedyCoder/gokv/releases) [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
 
 Simple key-value store abstraction and implementations for Go
 
@@ -36,16 +36,16 @@ type Store interface {
 }
 ```
 
-There are detailed descriptions of the methods in the [docs](https://www.godoc.org/github.com/philippgille/gokv#Store) and in the [code](https://github.com/philippgille/gokv/blob/master/store.go). You should read them if you plan to write your own `gokv.Store` implementation or if you create a Go package with a method that takes a `gokv.Store` as parameter, so you know exactly what happens in the background.
+There are detailed descriptions of the methods in the [docs](https://www.godoc.org/github.com/SpeedyCoder/gokv#Store) and in the [code](https://github.com/SpeedyCoder/gokv/blob/master/store.go). You should read them if you plan to write your own `gokv.Store` implementation or if you create a Go package with a method that takes a `gokv.Store` as parameter, so you know exactly what happens in the background.
 
 ### Implementations
 
 Some of the following databases aren't specifically engineered for storing key-value pairs, but if someone's running them already for other purposes and doesn't want to set up one of the proper key-value stores due to administrative overhead etc., they can of course be used as well. In those cases let's focus on a few of the most popular though. This mostly goes for the SQL, NoSQL and NewSQL categories.
 
-Feel free to suggest more stores by creating an [issue](https://github.com/philippgille/gokv/issues) or even add an actual implementation - [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com).
+Feel free to suggest more stores by creating an [issue](https://github.com/SpeedyCoder/gokv/issues) or even add an actual implementation - [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com).
 
 For differences between the implementations, see [Choosing an implementation](docs/choosing-implementation.md).  
-For the GoDoc of specific implementations, see [https://www.godoc.org/github.com/philippgille/gokv#pkg-subdirectories](https://www.godoc.org/github.com/philippgille/gokv#pkg-subdirectories).
+For the GoDoc of specific implementations, see [https://www.godoc.org/github.com/SpeedyCoder/gokv#pkg-subdirectories](https://www.godoc.org/github.com/SpeedyCoder/gokv#pkg-subdirectories).
 
 - Local in-memory
     - [X] Go `sync.Map`
@@ -90,7 +90,7 @@ For the GoDoc of specific implementations, see [https://www.godoc.org/github.com
 
 Again:  
 For differences between the implementations, see [Choosing an implementation](docs/choosing-implementation.md).  
-For the GoDoc of specific implementations, see [https://www.godoc.org/github.com/philippgille/gokv#pkg-subdirectories](https://www.godoc.org/github.com/philippgille/gokv#pkg-subdirectories).
+For the GoDoc of specific implementations, see [https://www.godoc.org/github.com/SpeedyCoder/gokv#pkg-subdirectories](https://www.godoc.org/github.com/SpeedyCoder/gokv#pkg-subdirectories).
 
 ### Value types
 
@@ -128,21 +128,21 @@ Differences between the formats:
 - Benchmarks!
 - CLI: A simple command line interface tool that allows you create, read, update and delete key-value pairs in all of the `gokv` storages
 - A `combiner` package that allows you to create a `gokv.Store` which forwards its call to multiple implementations at the same time. So for example you can use `memcached` and `s3` simultaneously to have 1) super fast access but also 2) durable redundant persistent storage.
-- A way to directly configure the clients via the options of the underlying used Go package (e.g. not the `redis.Options` struct in `github.com/philippgille/gokv`, but instead the `redis.Options` struct in `github.com/go-redis/redis`)
+- A way to directly configure the clients via the options of the underlying used Go package (e.g. not the `redis.Options` struct in `github.com/SpeedyCoder/gokv`, but instead the `redis.Options` struct in `github.com/go-redis/redis`)
     - Will be optional and discouraged, because this will lead to compile errors in code that uses `gokv` when switching the underlying used Go package, but definitely useful for some people
 - More stores (see stores in [Implementations](#implementations) list with unchecked boxes)
 - Maybe rename the project from `gokv` to `SimpleKV`?
-- Maybe move all implementation packages into a subdirectory, e.g. `github.com/philippgille/gokv/store/redis`?
+- Maybe move all implementation packages into a subdirectory, e.g. `github.com/SpeedyCoder/gokv/store/redis`?
 
 Usage
 -----
 
-First, download the package. You don't need to download *all* subpackages with `go get -u github.com/philippgille/gokv/...`, but only the subpackages you want to work with. This spares you from downloading many unnecessary dependencies.
+First, download the package. You don't need to download *all* subpackages with `go get -u github.com/SpeedyCoder/gokv/...`, but only the subpackages you want to work with. This spares you from downloading many unnecessary dependencies.
 
 - For example when you want to work with the `gokv.Store` interface:
-    - `go get -u github.com/philippgille/gokv`
+    - `go get -u github.com/SpeedyCoder/gokv`
 - For example when you want to work with the Redis implementation:
-    - `go get -u github.com/philippgille/gokv/redis`
+    - `go get -u github.com/SpeedyCoder/gokv/redis`
 
 Then you can import and use it.
 
@@ -154,8 +154,8 @@ package main
 import (
     "fmt"
 
-    "github.com/philippgille/gokv"
-    "github.com/philippgille/gokv/redis"
+    "github.com/SpeedyCoder/gokv"
+    "github.com/SpeedyCoder/gokv/redis"
 )
 
 type foo struct {
@@ -221,7 +221,7 @@ As described in the comments, that code does the following:
 
 Now let's say you don't want to use Redis but Consul instead. You just have to make three simple changes:
 
-1. Replace the import of `"github.com/philippgille/gokv/redis"` by `"github.com/philippgille/gokv/consul"`
+1. Replace the import of `"github.com/SpeedyCoder/gokv/redis"` by `"github.com/SpeedyCoder/gokv/consul"`
 2. Replace `redis.DefaultOptions` by `consul.DefaultOptions`
 3. Replace `redis.NewClient(options)` by `consul.NewClient(options)`
 
@@ -230,7 +230,7 @@ Everything else works the same way. `interactWithStore()` is completely unaffect
 Project status
 --------------
 
-> Note: `gokv`'s API is not stable yet and is under active development. Upcoming releases are likely to contain breaking changes as long as the version is `v0.x.y`. You should use vendoring to prevent bad surprises. This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) and all notable changes to this project are documented in [RELEASES.md](https://github.com/philippgille/gokv/blob/master/RELEASES.md).
+> Note: `gokv`'s API is not stable yet and is under active development. Upcoming releases are likely to contain breaking changes as long as the version is `v0.x.y`. You should use vendoring to prevent bad surprises. This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) and all notable changes to this project are documented in [RELEASES.md](https://github.com/SpeedyCoder/gokv/blob/master/RELEASES.md).
 
 Planned interface methods until `v1.0.0`:
 
@@ -249,7 +249,7 @@ Any decision for a specific database would limit the package's usability.
 
 One solution would be a custom interface where you would leave the implementation to the package user. But that would require the developer to dive into the details of the Go package of the chosen key-value store. And if the developer wants to switch the store, or maybe use one for local testing and another for production, she would need to write *multiple* implementations.
 
-`gokv` is the solution for these problems. Package *creators* use the `gokv.Store` interface as parameter and can call its methods within their code, leaving the decision which actual store to use to the package user. Package *users* pick one of the implementations, for example `github.com/philippgille/gokv/redis` for Redis and pass the `redis.Client` created by `redis.NewClient(...)` as parameter. Package users can also develop their own implementations if they need to.
+`gokv` is the solution for these problems. Package *creators* use the `gokv.Store` interface as parameter and can call its methods within their code, leaving the decision which actual store to use to the package user. Package *users* pick one of the implementations, for example `github.com/SpeedyCoder/gokv/redis` for Redis and pass the `redis.Client` created by `redis.NewClient(...)` as parameter. Package users can also develop their own implementations if they need to.
 
 `gokv` doesn't just have to be used to satisfy some `gokv.Store` parameter. It can of course also be used by application / web service developers who just don't want to dive into the sometimes complicated usage of some key-value store packages.
 

@@ -9,9 +9,9 @@ import (
 
 	gcpdatastore "cloud.google.com/go/datastore"
 
-	"github.com/philippgille/gokv/datastore"
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/datastore"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

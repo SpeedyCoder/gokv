@@ -8,8 +8,8 @@ import (
 	"cloud.google.com/go/datastore"
 	"google.golang.org/api/option"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/util"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/util"
 )
 
 const kind = "gokv"

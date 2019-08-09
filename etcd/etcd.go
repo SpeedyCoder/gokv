@@ -7,8 +7,8 @@ import (
 
 	"go.etcd.io/etcd/clientv3"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/util"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/util"
 )
 
 var defaultTimeout = 200 * time.Millisecond

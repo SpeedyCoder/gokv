@@ -5,9 +5,9 @@ import (
 	"log"
 	"testing"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
-	"github.com/philippgille/gokv/postgresql"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/postgresql"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

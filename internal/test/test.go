@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-test/deep"
 
-	"github.com/philippgille/gokv"
+	"github.com/SpeedyCoder/gokv"
 )
 
 // Foo is just some struct for common tests.

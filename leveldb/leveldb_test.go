@@ -6,10 +6,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/philippgille/gokv"
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/test"
-	"github.com/philippgille/gokv/leveldb"
+	"github.com/SpeedyCoder/gokv"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/leveldb"
 )
 
 // TestStore tests if reading from, writing to and deleting from the store works properly.

@@ -11,8 +11,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	awsdynamodb "github.com/aws/aws-sdk-go/service/dynamodb"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/util"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/util"
 )
 
 // "k" is used as table column name for the key.

@@ -8,9 +8,9 @@ import (
 
 	orig "github.com/amsokol/ignite-go-client/binary/v1"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/ignite"
-	"github.com/philippgille/gokv/internal/test"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/ignite"
+	"github.com/SpeedyCoder/gokv/internal/test"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

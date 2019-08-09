@@ -3,8 +3,8 @@ package freecache
 import (
 	"github.com/coocood/freecache"
 
-	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/internal/util"
+	"github.com/SpeedyCoder/gokv/encoding"
+	"github.com/SpeedyCoder/gokv/internal/util"
 )
 
 const minSize = 512 * 1024
