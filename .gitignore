@@ -16,4 +16,4 @@
 # Test coverage file
 coverage.txt
 # LevelDB DB files that are created during LevelDB tests
-leveldb/leveldb
+backends/leveldb/leveldb
