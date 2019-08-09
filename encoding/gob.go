@@ -5,12 +5,11 @@ import (
 	"encoding/gob"
 )
 
-// GobCodec encodes/decodes Go values to/from gob.
-// You can use encoding.Gob instead of creating an instance of this struct.
-type GobCodec struct{}
+// gobCodec encodes/decodes Go values to/from gob.
+type gobCodec struct{}
 
 // Marshal encodes a Go value to gob.
-func (c GobCodec) Marshal(v interface{}) ([]byte, error) {
+func (c gobCodec) Marshal(v interface{}) ([]byte, error) {
 	buffer := new(bytes.Buffer)
 	encoder := gob.NewEncoder(buffer)
 	err := encoder.Encode(v)
@@ -21,7 +20,7 @@ func (c GobCodec) Marshal(v interface{}) ([]byte, error) {
 }
 
 // Unmarshal decodes a gob value into a Go value.
-func (c GobCodec) Unmarshal(data []byte, v interface{}) error {
+func (c gobCodec) Unmarshal(data []byte, v interface{}) error {
 	reader := bytes.NewReader(data)
 	decoder := gob.NewDecoder(reader)
 	return decoder.Decode(v)

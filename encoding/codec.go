@@ -10,8 +10,11 @@ type Codec interface {
 
 // Convenience variables
 var (
-	// JSON is a JSONcodec that encodes/decodes Go values to/from JSON.
-	JSON = JSONcodec{}
-	// Gob is a GobCodec that encodes/decodes Go values to/from gob.
-	Gob = GobCodec{}
+	// JSON is a codec that encodes/decodes Go values to/from JSON.
+	JSON Codec = jsonCodec{}
+	// Gob is a codec that encodes/decodes Go values to/from gob.
+	Gob Codec = gobCodec{}
+	// Proto is a codec that encodes/decodes Go values that implement
+	// the proto.Message interface to/from.
+	Proto Codec = protoCodec{}
 )
