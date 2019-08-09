@@ -5,7 +5,7 @@ import (
 )
 
 // jsonCodec encodes/decodes Go values to/from JSON.
-type jsonCodec struct{}
+type jsonCodec string
 
 // Marshal encodes a Go value to JSON.
 func (c jsonCodec) Marshal(v interface{}) ([]byte, error) {

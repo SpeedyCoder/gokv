@@ -6,7 +6,7 @@ import (
 )
 
 // gobCodec encodes/decodes Go values to/from gob.
-type gobCodec struct{}
+type gobCodec string
 
 // Marshal encodes a Go value to gob.
 func (c gobCodec) Marshal(v interface{}) ([]byte, error) {

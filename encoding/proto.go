@@ -9,7 +9,7 @@ import (
 var errNotAProtoMessage = errors.New("not a protobuf message")
 
 // protoCodec encodes/decodes protobuf messages.
-type protoCodec struct{}
+type protoCodec string
 
 // Marshal encodes a protobuf message to a slice of bytes.
 func (protoCodec) Marshal(v interface{}) ([]byte, error) {
