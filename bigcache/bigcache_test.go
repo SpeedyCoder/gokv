@@ -7,7 +7,7 @@ import (
 
 	"github.com/philippgille/gokv/bigcache"
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/test"
+	"github.com/philippgille/gokv/internal/test"
 )
 
 // TestStore tests if reading and writing to the store works properly.

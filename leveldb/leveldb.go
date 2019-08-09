@@ -5,7 +5,7 @@ import (
 	"github.com/syndtr/goleveldb/leveldb/opt"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 // Store is a gokv.Store implementation for LevelDB.

@@ -6,7 +6,7 @@ import (
 	"github.com/globalsign/mgo"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 // item is the document that's stored in the MongoDB collection.

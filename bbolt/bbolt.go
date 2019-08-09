@@ -4,7 +4,7 @@ import (
 	bolt "github.com/etcd-io/bbolt"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 // Store is a gokv.Store implementation for bbolt (formerly known as Bolt / Bolt DB).

@@ -8,7 +8,7 @@ import (
 	"sync"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 var defaultFilenameExtension = "json"

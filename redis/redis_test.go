@@ -7,8 +7,8 @@ import (
 	goredis "github.com/go-redis/redis"
 
 	"github.com/philippgille/gokv/encoding"
+	"github.com/philippgille/gokv/internal/test"
 	"github.com/philippgille/gokv/redis"
-	"github.com/philippgille/gokv/test"
 )
 
 // Don't use the default number ("0"),

@@ -9,7 +9,7 @@ import (
 	"github.com/philippgille/gokv"
 	"github.com/philippgille/gokv/encoding"
 	"github.com/philippgille/gokv/file"
-	"github.com/philippgille/gokv/test"
+	"github.com/philippgille/gokv/internal/test"
 )
 
 // TestStore tests if reading from, writing to and deleting from the store works properly.

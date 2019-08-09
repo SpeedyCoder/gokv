@@ -7,8 +7,8 @@ import (
 
 	"github.com/globalsign/mgo"
 	"github.com/philippgille/gokv/encoding"
+	"github.com/philippgille/gokv/internal/test"
 	"github.com/philippgille/gokv/mongodb"
-	"github.com/philippgille/gokv/test"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

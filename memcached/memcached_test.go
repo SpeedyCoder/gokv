@@ -8,8 +8,8 @@ import (
 	"github.com/bradfitz/gomemcache/memcache"
 
 	"github.com/philippgille/gokv/encoding"
+	"github.com/philippgille/gokv/internal/test"
 	"github.com/philippgille/gokv/memcached"
-	"github.com/philippgille/gokv/test"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

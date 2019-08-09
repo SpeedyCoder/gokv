@@ -9,8 +9,8 @@ import (
 	alitablestore "github.com/aliyun/aliyun-tablestore-go-sdk/tablestore"
 
 	"github.com/philippgille/gokv/encoding"
+	"github.com/philippgille/gokv/internal/test"
 	"github.com/philippgille/gokv/tablestore"
-	"github.com/philippgille/gokv/test"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

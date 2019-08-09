@@ -4,7 +4,7 @@ import (
 	"github.com/coocood/freecache"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 const minSize = 512 * 1024

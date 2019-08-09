@@ -8,7 +8,7 @@ import (
 	ignite "github.com/amsokol/ignite-go-client/binary/v1"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 // Client is a gokv.Store implementation for Apache Ignite.

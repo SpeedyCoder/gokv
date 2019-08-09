@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/storage"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 var valAttrName = "v"

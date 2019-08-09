@@ -3,13 +3,13 @@ package hazelcast
 import (
 	"fmt"
 
-	hazelcast "github.com/hazelcast/hazelcast-go-client"
+	"github.com/hazelcast/hazelcast-go-client"
 	"github.com/hazelcast/hazelcast-go-client/config/property"
 	"github.com/hazelcast/hazelcast-go-client/core"
 	"github.com/hazelcast/hazelcast-go-client/core/logger"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 // Client is a gokv.Store implementation for Hazelcast.

@@ -8,7 +8,7 @@ import (
 	"github.com/samuel/go-zookeeper/zk"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 // Client is a gokv.Store implementation for Apache ZooKeeper.

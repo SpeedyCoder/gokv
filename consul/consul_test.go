@@ -10,7 +10,7 @@ import (
 
 	"github.com/philippgille/gokv/consul"
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/test"
+	"github.com/philippgille/gokv/internal/test"
 )
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.

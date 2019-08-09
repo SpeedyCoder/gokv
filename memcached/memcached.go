@@ -6,7 +6,7 @@ import (
 	"github.com/bradfitz/gomemcache/memcache"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 var defaultTimeout = 200 * time.Millisecond

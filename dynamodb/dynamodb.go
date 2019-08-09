@@ -12,7 +12,7 @@ import (
 	awsdynamodb "github.com/aws/aws-sdk-go/service/dynamodb"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 // "k" is used as table column name for the key.

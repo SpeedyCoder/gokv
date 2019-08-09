@@ -4,7 +4,7 @@ import (
 	"github.com/hashicorp/consul/api"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 // Client is a gokv.Store implementation for Consul.

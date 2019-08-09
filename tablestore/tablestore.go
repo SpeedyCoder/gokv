@@ -8,7 +8,7 @@ import (
 	"github.com/aliyun/aliyun-tablestore-go-sdk/tablestore"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 var keyAttrName = "k"

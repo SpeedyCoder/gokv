@@ -14,7 +14,7 @@ import (
 
 	"github.com/philippgille/gokv/dynamodb"
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/test"
+	"github.com/philippgille/gokv/internal/test"
 )
 
 // For "DynamoDB local" Docker container.

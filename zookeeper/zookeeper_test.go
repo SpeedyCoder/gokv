@@ -9,7 +9,7 @@ import (
 	"github.com/samuel/go-zookeeper/zk"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/test"
+	"github.com/philippgille/gokv/internal/test"
 	"github.com/philippgille/gokv/zookeeper"
 )
 

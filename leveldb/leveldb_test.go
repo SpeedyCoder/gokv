@@ -8,8 +8,8 @@ import (
 
 	"github.com/philippgille/gokv"
 	"github.com/philippgille/gokv/encoding"
+	"github.com/philippgille/gokv/internal/test"
 	"github.com/philippgille/gokv/leveldb"
-	"github.com/philippgille/gokv/test"
 )
 
 // TestStore tests if reading from, writing to and deleting from the store works properly.

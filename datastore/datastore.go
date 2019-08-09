@@ -9,7 +9,7 @@ import (
 	"google.golang.org/api/option"
 
 	"github.com/philippgille/gokv/encoding"
-	"github.com/philippgille/gokv/util"
+	"github.com/philippgille/gokv/internal/util"
 )
 
 const kind = "gokv"
