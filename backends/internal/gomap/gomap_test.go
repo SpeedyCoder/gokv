@@ -1,13 +1,8 @@
-package bbolt_test
+package gomap_test
 
 import (
-	"io/ioutil"
-	"log"
-	"os"
 	"testing"
 
-	"github.com/SpeedyCoder/gokv"
-	"github.com/SpeedyCoder/gokv/backends/bbolt"
 	"github.com/SpeedyCoder/gokv/encoding"
 	"github.com/SpeedyCoder/gokv/internal/test"
 )
@@ -17,15 +12,13 @@ import (
 func TestStore(t *testing.T) {
 	// Test with JSON
 	t.Run("JSON", func(t *testing.T) {
-		store, path := createStore(t, encoding.JSON)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.JSON)
 		test.Store(store, t)
 	})
 
 	// Test with gob
 	t.Run("gob", func(t *testing.T) {
-		store, path := createStore(t, encoding.Gob)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.Gob)
 		test.Store(store, t)
 	})
 }
@@ -34,25 +27,21 @@ func TestStore(t *testing.T) {
 func TestTypes(t *testing.T) {
 	// Test with JSON
 	t.Run("JSON", func(t *testing.T) {
-		store, path := createStore(t, encoding.JSON)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.JSON)
 		test.Types(store, t)
 	})
 
 	// Test with gob
 	t.Run("gob", func(t *testing.T) {
-		store, path := createStore(t, encoding.Gob)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.Gob)
 		test.Types(store, t)
 	})
 }
 
 // TestStoreConcurrent launches a bunch of goroutines that concurrently work with one store.
-// The store works with a single file, so everything should be locked properly.
-// The locking is implemented in the bbolt package, but test it nonetheless.
+// The store is Go map with manual locking via sync.RWMutex, so testing this is important.
 func TestStoreConcurrent(t *testing.T) {
-	store, path := createStore(t, encoding.JSON)
-	defer cleanUp(store, path)
+	store := createStore(t, encoding.JSON)
 
 	goroutineCount := 1000
 
@@ -62,8 +51,7 @@ func TestStoreConcurrent(t *testing.T) {
 // TestErrors tests some error cases.
 func TestErrors(t *testing.T) {
 	// Test empty key
-	store, path := createStore(t, encoding.JSON)
-	defer cleanUp(store, path)
+	store := createStore(t, encoding.JSON)
 	err := store.Set("", "bar")
 	if err == nil {
 		t.Error("Expected an error")
@@ -83,8 +71,7 @@ func TestNil(t *testing.T) {
 	// Test setting nil
 
 	t.Run("set nil with JSON marshalling", func(t *testing.T) {
-		store, path := createStore(t, encoding.JSON)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.JSON)
 		err := store.Set("foo", nil)
 		if err == nil {
 			t.Error("Expected an error")
@@ -92,8 +79,7 @@ func TestNil(t *testing.T) {
 	})
 
 	t.Run("set nil with Gob marshalling", func(t *testing.T) {
-		store, path := createStore(t, encoding.Gob)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.Gob)
 		err := store.Set("foo", nil)
 		if err == nil {
 			t.Error("Expected an error")
@@ -104,8 +90,7 @@ func TestNil(t *testing.T) {
 
 	createTest := func(codec encoding.Encoding) func(t *testing.T) {
 		return func(t *testing.T) {
-			store, path := createStore(t, codec)
-			defer cleanUp(store, path)
+			store := createStore(t, codec)
 
 			// Prep
 			err := store.Set("foo", test.Foo{Bar: "baz"})
@@ -137,68 +122,17 @@ func TestNil(t *testing.T) {
 
 // TestClose tests if the close method returns any errors.
 func TestClose(t *testing.T) {
-	store, path := createStore(t, encoding.JSON)
-	defer os.RemoveAll(path)
+	store := createStore(t, encoding.JSON)
 	err := store.Close()
 	if err != nil {
 		t.Error(err)
 	}
 }
 
-// TestNonExistingDir tests whether the implementation can create the given directory on its own.
-func TestNonExistingDir(t *testing.T) {
-	tmpDir := os.TempDir() + "/bbolt"
-	err := os.RemoveAll(tmpDir)
-	if err != nil {
-		t.Fatal(err)
+func createStore(t *testing.T, codec encoding.Encoding) Store {
+	options := Options{
+		Codec: codec,
 	}
-
-	options := bbolt.Options{
-		Path: tmpDir,
-	}
-	store, err := bbolt.NewStore(&options)
-	defer cleanUp(store, tmpDir)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	err = store.Set("foo", "bar")
-	if err != nil {
-		t.Error(err)
-	}
-}
-
-func createStore(t *testing.T, codec encoding.Encoding) (gokv.Store, string) {
-	path := generateRandomTempDbPath(t)
-	options := bbolt.Options{
-		Path:     path,
-		Encoding: codec,
-	}
-	store, err := bbolt.NewStore(&options)
-	if err != nil {
-		t.Fatal(err)
-	}
-	return store, path
-}
-
-func generateRandomTempDbPath(t *testing.T) string {
-	path, err := ioutil.TempDir(os.TempDir(), "bbolt")
-	if err != nil {
-		t.Fatalf("Generating random DB path failed: %v", err)
-	}
-	path += "/bbolt.db"
-	return path
-}
-
-// cleanUp cleans up (deletes) the database file that has been created during a test.
-// If an error occurs the test is NOT marked as failed.
-func cleanUp(store gokv.Store, path string) {
-	err := store.Close()
-	if err != nil {
-		log.Printf("Error during cleaning up after a test (during closing the store): %v\n", err)
-	}
-	err = os.RemoveAll(path)
-	if err != nil {
-		log.Printf("Error during cleaning up after a test (during removing the data directory): %v\n", err)
-	}
+	store := NewStore(options)
+	return store
 }

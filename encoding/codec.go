@@ -4,8 +4,8 @@ import (
 	"fmt"
 )
 
-// Codec encodes/decodes Go values to/from slices of bytes.
-type Codec interface {
+// Encoding encodes/decodes Go values to/from slices of bytes.
+type Encoding interface {
 	// Marshal encodes a Go value to a slice of bytes.
 	Marshal(v interface{}) ([]byte, error)
 	// Unmarshal decodes a slice of bytes into a Go value.
@@ -24,7 +24,7 @@ const (
 )
 
 // FromString returns encoding corresponding to provided lowercase string.
-func FromString(s string) (Codec, error) {
+func FromString(s string) (Encoding, error) {
 	switch s {
 	case "json":
 		return JSON, nil

@@ -1,31 +1,27 @@
-package bbolt_test
+package bigcache_test
 
 import (
-	"io/ioutil"
-	"log"
-	"os"
+	"math/rand"
+	"strconv"
 	"testing"
 
-	"github.com/SpeedyCoder/gokv"
-	"github.com/SpeedyCoder/gokv/backends/bbolt"
 	"github.com/SpeedyCoder/gokv/encoding"
 	"github.com/SpeedyCoder/gokv/internal/test"
 )
 
-// TestStore tests if reading from, writing to and deleting from the store works properly.
-// A struct is used as value. See TestTypes() for a test that is simpler but tests all types.
+// TestStore tests if reading and writing to the store works properly.
 func TestStore(t *testing.T) {
 	// Test with JSON
 	t.Run("JSON", func(t *testing.T) {
-		store, path := createStore(t, encoding.JSON)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.JSON)
+		defer store.Close()
 		test.Store(store, t)
 	})
 
 	// Test with gob
 	t.Run("gob", func(t *testing.T) {
-		store, path := createStore(t, encoding.Gob)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.Gob)
+		defer store.Close()
 		test.Store(store, t)
 	})
 }
@@ -34,25 +30,23 @@ func TestStore(t *testing.T) {
 func TestTypes(t *testing.T) {
 	// Test with JSON
 	t.Run("JSON", func(t *testing.T) {
-		store, path := createStore(t, encoding.JSON)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.JSON)
+		defer store.Close()
 		test.Types(store, t)
 	})
 
 	// Test with gob
 	t.Run("gob", func(t *testing.T) {
-		store, path := createStore(t, encoding.Gob)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.Gob)
+		defer store.Close()
 		test.Types(store, t)
 	})
 }
 
 // TestStoreConcurrent launches a bunch of goroutines that concurrently work with one store.
-// The store works with a single file, so everything should be locked properly.
-// The locking is implemented in the bbolt package, but test it nonetheless.
 func TestStoreConcurrent(t *testing.T) {
-	store, path := createStore(t, encoding.JSON)
-	defer cleanUp(store, path)
+	store := createStore(t, encoding.JSON)
+	defer store.Close()
 
 	goroutineCount := 1000
 
@@ -62,8 +56,8 @@ func TestStoreConcurrent(t *testing.T) {
 // TestErrors tests some error cases.
 func TestErrors(t *testing.T) {
 	// Test empty key
-	store, path := createStore(t, encoding.JSON)
-	defer cleanUp(store, path)
+	store := createStore(t, encoding.JSON)
+	defer store.Close()
 	err := store.Set("", "bar")
 	if err == nil {
 		t.Error("Expected an error")
@@ -83,8 +77,8 @@ func TestNil(t *testing.T) {
 	// Test setting nil
 
 	t.Run("set nil with JSON marshalling", func(t *testing.T) {
-		store, path := createStore(t, encoding.JSON)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.JSON)
+		defer store.Close()
 		err := store.Set("foo", nil)
 		if err == nil {
 			t.Error("Expected an error")
@@ -92,8 +86,8 @@ func TestNil(t *testing.T) {
 	})
 
 	t.Run("set nil with Gob marshalling", func(t *testing.T) {
-		store, path := createStore(t, encoding.Gob)
-		defer cleanUp(store, path)
+		store := createStore(t, encoding.Gob)
+		defer store.Close()
 		err := store.Set("foo", nil)
 		if err == nil {
 			t.Error("Expected an error")
@@ -104,8 +98,8 @@ func TestNil(t *testing.T) {
 
 	createTest := func(codec encoding.Encoding) func(t *testing.T) {
 		return func(t *testing.T) {
-			store, path := createStore(t, codec)
-			defer cleanUp(store, path)
+			store := createStore(t, codec)
+			defer store.Close()
 
 			// Prep
 			err := store.Set("foo", test.Foo{Bar: "baz"})
@@ -137,68 +131,54 @@ func TestNil(t *testing.T) {
 
 // TestClose tests if the close method returns any errors.
 func TestClose(t *testing.T) {
-	store, path := createStore(t, encoding.JSON)
-	defer os.RemoveAll(path)
+	store := createStore(t, encoding.JSON)
 	err := store.Close()
 	if err != nil {
 		t.Error(err)
 	}
 }
 
-// TestNonExistingDir tests whether the implementation can create the given directory on its own.
-func TestNonExistingDir(t *testing.T) {
-	tmpDir := os.TempDir() + "/bbolt"
-	err := os.RemoveAll(tmpDir)
+// TestEvictionOnMaxSize tests if entries are evicted when the max size is reached when NO eviction time is set.
+func TestEvictionOnMaxSize(t *testing.T) {
+	// Test with small max size (1 MiB) and eviction of 0
+	options := Options{
+		HardMaxCacheSize: 1,
+	}
+	store, err := NewStore(options)
+	defer store.Close()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	options := bbolt.Options{
-		Path: tmpDir,
-	}
-	store, err := bbolt.NewStore(&options)
-	defer cleanUp(store, tmpDir)
-	if err != nil {
-		t.Fatal(err)
+	// Save 1*1024*1024 entries that are at least 1 byte each.
+	// This should lead to reaching the 1 MiB limit.
+	// Note: Storing "foo" 1024*1024 times isn't enough sometimes.
+	count := 1 * 1024 * 1024
+	for i := 0; i < count && err == nil; i++ {
+		err = store.Set(strconv.Itoa(i), strconv.Itoa(rand.Int()))
+		if err != nil {
+			t.Error(err)
+		}
 	}
 
-	err = store.Set("foo", "bar")
+	// The first entry shouldn't exist anymore, because it was evicted due to the max size, NOT because of some eviction time.
+	valPtr := new(string)
+	found, err := store.Get("1", valPtr)
 	if err != nil {
 		t.Error(err)
 	}
+	if found {
+		t.Error("First value should have been evicted, but wasn't")
+	}
 }
 
-func createStore(t *testing.T, codec encoding.Encoding) (gokv.Store, string) {
-	path := generateRandomTempDbPath(t)
-	options := bbolt.Options{
-		Path:     path,
-		Encoding: codec,
+func createStore(t *testing.T, codec encoding.Encoding) Store {
+	options := Options{
+		Codec: codec,
 	}
-	store, err := bbolt.NewStore(&options)
+	store, err := NewStore(options)
 	if err != nil {
 		t.Fatal(err)
 	}
-	return store, path
-}
-
-func generateRandomTempDbPath(t *testing.T) string {
-	path, err := ioutil.TempDir(os.TempDir(), "bbolt")
-	if err != nil {
-		t.Fatalf("Generating random DB path failed: %v", err)
-	}
-	path += "/bbolt.db"
-	return path
-}
-
-// cleanUp cleans up (deletes) the database file that has been created during a test.
-// If an error occurs the test is NOT marked as failed.
-func cleanUp(store gokv.Store, path string) {
-	err := store.Close()
-	if err != nil {
-		log.Printf("Error during cleaning up after a test (during closing the store): %v\n", err)
-	}
-	err = os.RemoveAll(path)
-	if err != nil {
-		log.Printf("Error during cleaning up after a test (during removing the data directory): %v\n", err)
-	}
+	return store
 }

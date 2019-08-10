@@ -34,6 +34,10 @@ func (s ctxStore) Delete(_ context.Context, k string) error {
 	return s.store.Delete(k)
 }
 
+func (s ctxStore) Keys(context.Context) gokv.KeysIterator {
+	return s.store.Keys()
+}
+
 func (s ctxStore) Close() error {
 	return s.store.Close()
 }
@@ -52,6 +56,10 @@ func (s simpleStore) Get(k string, v interface{}) (found bool, err error) {
 
 func (s simpleStore) Delete(k string) error {
 	return s.store.Delete(context.Background(), k)
+}
+
+func (s simpleStore) Keys() gokv.KeysIterator {
+	return s.store.Keys(context.Background())
 }
 
 func (s simpleStore) Close() error {

@@ -1,4 +1,4 @@
-package bbolt_test
+package badgerdb_test
 
 import (
 	"io/ioutil"
@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/SpeedyCoder/gokv"
-	"github.com/SpeedyCoder/gokv/backends/bbolt"
 	"github.com/SpeedyCoder/gokv/encoding"
 	"github.com/SpeedyCoder/gokv/internal/test"
 )
@@ -49,7 +48,7 @@ func TestTypes(t *testing.T) {
 
 // TestStoreConcurrent launches a bunch of goroutines that concurrently work with one store.
 // The store works with a single file, so everything should be locked properly.
-// The locking is implemented in the bbolt package, but test it nonetheless.
+// The locking is implemented in the BadgerDB package, but test it nonetheless.
 func TestStoreConcurrent(t *testing.T) {
 	store, path := createStore(t, encoding.JSON)
 	defer cleanUp(store, path)
@@ -146,17 +145,18 @@ func TestClose(t *testing.T) {
 }
 
 // TestNonExistingDir tests whether the implementation can create the given directory on its own.
+// When using BadgerDB directly, it requires the given path to exist and to be writeable.
 func TestNonExistingDir(t *testing.T) {
-	tmpDir := os.TempDir() + "/bbolt"
+	tmpDir := os.TempDir() + "/BadgerDB"
 	err := os.RemoveAll(tmpDir)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	options := bbolt.Options{
-		Path: tmpDir,
+	options := Options{
+		Dir: tmpDir,
 	}
-	store, err := bbolt.NewStore(&options)
+	store, err := NewStore(options)
 	defer cleanUp(store, tmpDir)
 	if err != nil {
 		t.Fatal(err)
@@ -168,29 +168,28 @@ func TestNonExistingDir(t *testing.T) {
 	}
 }
 
-func createStore(t *testing.T, codec encoding.Encoding) (gokv.Store, string) {
-	path := generateRandomTempDbPath(t)
-	options := bbolt.Options{
-		Path:     path,
-		Encoding: codec,
+func createStore(t *testing.T, codec encoding.Encoding) (Store, string) {
+	randPath := generateRandomTempDBpath(t)
+	options := Options{
+		Dir:   randPath,
+		Codec: codec,
 	}
-	store, err := bbolt.NewStore(&options)
+	store, err := NewStore(options)
 	if err != nil {
 		t.Fatal(err)
 	}
-	return store, path
+	return store, randPath
 }
 
-func generateRandomTempDbPath(t *testing.T) string {
-	path, err := ioutil.TempDir(os.TempDir(), "bbolt")
+func generateRandomTempDBpath(t *testing.T) string {
+	path, err := ioutil.TempDir(os.TempDir(), "BadgerDB")
 	if err != nil {
 		t.Fatalf("Generating random DB path failed: %v", err)
 	}
-	path += "/bbolt.db"
 	return path
 }
 
-// cleanUp cleans up (deletes) the database file that has been created during a test.
+// cleanUp cleans up (deletes) the database files that have been created during a test.
 // If an error occurs the test is NOT marked as failed.
 func cleanUp(store gokv.Store, path string) {
 	err := store.Close()

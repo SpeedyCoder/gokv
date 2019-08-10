@@ -1,4 +1,4 @@
-package bbolt_test
+package leveldb_test
 
 import (
 	"io/ioutil"
@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/SpeedyCoder/gokv"
-	"github.com/SpeedyCoder/gokv/backends/bbolt"
 	"github.com/SpeedyCoder/gokv/encoding"
 	"github.com/SpeedyCoder/gokv/internal/test"
 )
@@ -49,7 +48,7 @@ func TestTypes(t *testing.T) {
 
 // TestStoreConcurrent launches a bunch of goroutines that concurrently work with one store.
 // The store works with a single file, so everything should be locked properly.
-// The locking is implemented in the bbolt package, but test it nonetheless.
+// The locking is implemented in the leveldb package, but test it nonetheless.
 func TestStoreConcurrent(t *testing.T) {
 	store, path := createStore(t, encoding.JSON)
 	defer cleanUp(store, path)
@@ -145,36 +144,77 @@ func TestClose(t *testing.T) {
 	}
 }
 
-// TestNonExistingDir tests whether the implementation can create the given directory on its own.
-func TestNonExistingDir(t *testing.T) {
-	tmpDir := os.TempDir() + "/bbolt"
-	err := os.RemoveAll(tmpDir)
+// TestDefaultPath tests if the store works when the default path is used.
+func TestDefaultPath(t *testing.T) {
+	defaultPath := DefaultOptions.Path
+	err := os.RemoveAll(defaultPath)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	options := bbolt.Options{
-		Path: tmpDir,
-	}
-	store, err := bbolt.NewStore(&options)
-	defer cleanUp(store, tmpDir)
+	store, err := NewStore(DefaultOptions)
+	defer cleanUp(store, DefaultOptions.Path)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	err = store.Set("foo", "bar")
+	k := "foo"
+	err = store.Set(k, "bar")
+	if err != nil {
+		t.Error(err)
+	}
+	valPtr := new(string)
+	found, err := store.Get(k, valPtr)
+	if err != nil {
+		t.Error(err)
+	}
+	if !found {
+		t.Error("A value should have been found, but wasn't")
+	}
+	err = store.Delete(k)
 	if err != nil {
 		t.Error(err)
 	}
 }
 
-func createStore(t *testing.T, codec encoding.Encoding) (gokv.Store, string) {
-	path := generateRandomTempDbPath(t)
-	options := bbolt.Options{
-		Path:     path,
-		Encoding: codec,
+// TestSyncWrite tests if file-synchronized writes work.
+func TestSyncWrite(t *testing.T) {
+	options := Options{
+		Path:      generateRandomTempDbPath(t),
+		WriteSync: true,
 	}
-	store, err := bbolt.NewStore(&options)
+	store, err := NewStore(options)
+	defer cleanUp(store, DefaultOptions.Path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	k := "foo"
+	err = store.Set(k, "bar")
+	if err != nil {
+		t.Error(err)
+	}
+	valPtr := new(string)
+	found, err := store.Get(k, valPtr)
+	if err != nil {
+		t.Error(err)
+	}
+	if !found {
+		t.Error("A value should have been found, but wasn't")
+	}
+	err = store.Delete(k)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func createStore(t *testing.T, codec encoding.Encoding) (Store, string) {
+	path := generateRandomTempDbPath(t)
+	options := Options{
+		Path:  path,
+		Codec: codec,
+	}
+	store, err := NewStore(options)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -182,15 +222,15 @@ func createStore(t *testing.T, codec encoding.Encoding) (gokv.Store, string) {
 }
 
 func generateRandomTempDbPath(t *testing.T) string {
-	path, err := ioutil.TempDir(os.TempDir(), "bbolt")
+	path, err := ioutil.TempDir(os.TempDir(), "leveldb")
 	if err != nil {
 		t.Fatalf("Generating random DB path failed: %v", err)
 	}
-	path += "/bbolt.db"
+	path += "/leveldb"
 	return path
 }
 
-// cleanUp cleans up (deletes) the database file that has been created during a test.
+// cleanUp cleans up the store (deletes the files that have been created during a test).
 // If an error occurs the test is NOT marked as failed.
 func cleanUp(store gokv.Store, path string) {
 	err := store.Close()

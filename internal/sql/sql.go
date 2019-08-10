@@ -13,7 +13,7 @@ type Client struct {
 	UpsertStmt *sql.Stmt
 	GetStmt    *sql.Stmt
 	DeleteStmt *sql.Stmt
-	Codec      encoding.Codec
+	Codec      encoding.Encoding
 }
 
 // Set stores the given value for the given key.

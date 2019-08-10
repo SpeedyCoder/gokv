@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/SpeedyCoder/gokv"
-	"github.com/SpeedyCoder/gokv/backends/redis"
+	"github.com/SpeedyCoder/gokv/backends/internal/redis"
 )
 
 type foo struct {

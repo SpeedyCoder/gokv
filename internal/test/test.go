@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/go-test/deep"
+	"github.com/stretchr/testify/require"
 
 	"github.com/SpeedyCoder/gokv"
 )
@@ -25,66 +26,51 @@ type privateFoo struct {
 // Store tests if reading from, writing to and deleting from the store works properly.
 // A struct is used as value. See TestTypes() for a test that is simpler but tests all types.
 func Store(store gokv.Store, t *testing.T) {
+	assert := require.New(t)
 	key := strconv.FormatInt(rand.Int63(), 10)
 
 	// Initially the key shouldn't exist
 	found, err := store.Get(key, new(Foo))
-	if err != nil {
-		t.Error(err)
-	}
-	if found {
-		t.Error("A value was found, but no value was expected")
-	}
+	assert.NoError(err)
+	assert.False(found, "A value was found, but no value was expected")
 
 	// Deleting a non-existing key-value pair should NOT lead to an error
 	err = store.Delete(key)
-	if err != nil {
-		t.Error(err)
-	}
+	assert.NoError(err)
 
 	// Store an object
-	val := Foo{
-		Bar: "baz",
-	}
+	val := Foo{Bar: "baz"}
 	err = store.Set(key, val)
-	if err != nil {
-		t.Error(err)
-	}
+	assert.NoError(err)
 
 	// Storing it again should not lead to an error but just overwrite it
 	err = store.Set(key, val)
-	if err != nil {
-		t.Error(err)
-	}
+	assert.NoError(err)
 
 	// Retrieve the object
 	expected := val
-	actualPtr := new(Foo)
-	found, err = store.Get(key, actualPtr)
-	if err != nil {
-		t.Error(err)
+	actual := new(Foo)
+	found, err = store.Get(key, actual)
+	assert.NoError(err)
+	assert.True(found, "No value was found, but should have been")
+	assert.EqualValuesf(expected, *actual, "Expected: %v, but was: %v", expected, *actual)
+
+	// Retrieve all keys
+	keys := make([]string, 0)
+	it := store.Keys()
+	for k := range it.Ch() {
+		keys = append(keys, k)
 	}
-	if !found {
-		t.Error("No value was found, but should have been")
-	}
-	actual := *actualPtr
-	if actual != expected {
-		t.Errorf("Expected: %v, but was: %v", expected, actual)
-	}
+	assert.NoError(it.Err())
+	assert.ElementsMatch([]string{key}, keys)
 
 	// Delete
 	err = store.Delete(key)
-	if err != nil {
-		t.Error(err)
-	}
+	assert.NoError(err)
 	// Key-value pair shouldn't exist anymore
 	found, err = store.Get(key, new(Foo))
-	if err != nil {
-		t.Error(err)
-	}
-	if found {
-		t.Error("A value was found, but no value was expected")
-	}
+	assert.NoError(err)
+	assert.False(found, "A value was found, but no value was expected")
 }
 
 // Types tests if setting and getting values works with all Go types.

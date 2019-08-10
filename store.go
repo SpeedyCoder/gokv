@@ -25,6 +25,8 @@ type Store interface {
 	// Deleting a non-existing key-value pair does NOT lead to an error.
 	// The key must not be "".
 	Delete(k string) error
+	// Keys returns an iterator over all keys in a store.
+	Keys() KeysIterator
 	// Close must be called when the work with the key-value store is done.
 	// Most (if not all) implementations are meant to be used long-lived,
 	// so only call Close() at the very end.
@@ -47,5 +49,16 @@ type ContextStore interface {
 	Set(ctx context.Context, k string, v interface{}) error
 	Get(ctx context.Context, k string, v interface{}) (found bool, err error)
 	Delete(ctx context.Context, k string) error
+	Keys(ctx context.Context) KeysIterator
 	Close() error
+}
+
+// KeysIterator is an iterator over all keys in a store.
+type KeysIterator interface {
+	// Ch returns a read only channel of strings, to which the iterator
+	// writes all the keys.
+	Ch() <-chan string
+	// Err returns any error encountered during iteration. It panics if it's
+	// called before the iterator channel is closed.
+	Err() error
 }
